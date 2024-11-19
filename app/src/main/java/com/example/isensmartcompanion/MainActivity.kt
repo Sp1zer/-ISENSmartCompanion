@@ -68,7 +68,7 @@ fun GreetingPreview() {
 @Composable
 fun DrawableImage() {
     Image(
-        painter = painterResource(id = R.drawable.ISEN), // Replace with your image resource
+        painter = painterResource(id = R.drawable.isen), // Replace with your image resource
         contentDescription = "Description of the image",
         modifier = Modifier.size(200.dp), // Optional size modifier
         contentScale = ContentScale.Crop // Optional scaling
