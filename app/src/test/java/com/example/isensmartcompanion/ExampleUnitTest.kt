@@ -1,4 +1,4 @@
-package com.example.isensmartcompanion
+package fr.isen.fougeres.isensmartcompanion
 
 import org.junit.Test
 

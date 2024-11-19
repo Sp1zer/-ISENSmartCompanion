@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.isensmartcompanion"
+    namespace = "fr.isen.fougeres.isensmartcompanion"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.isensmartcompanion"
+        applicationId = "fr.isen.fougeres.isensmartcompanion"
         minSdk = 25
         targetSdk = 34
         versionCode = 1

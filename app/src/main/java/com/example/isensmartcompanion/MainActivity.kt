@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 
-package com.example.isensmartcompanion
+package fr.isen.fougeres.isensmartcompanion
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -28,7 +28,7 @@ import androidx.compose.runtime.*
 import android.widget.TextView
 import android.widget.Toast
 
-import com.example.isensmartcompanion.ui.theme.ISENSmartCompanionTheme
+import fr.isen.fougeres.isensmartcompanion.ui.theme.ISENSmartCompanionTheme
 
 
 class MainActivity : ComponentActivity() {

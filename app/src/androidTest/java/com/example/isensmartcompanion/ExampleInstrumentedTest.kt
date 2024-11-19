@@ -1,4 +1,4 @@
-package com.example.isensmartcompanion
+package fr.isen.fougeres.isensmartcompanion
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.example.isensmartcompanion", appContext.packageName)
+        assertEquals("fr.isen.fougeres.isensmartcompanion", appContext.packageName)
     }
 }
