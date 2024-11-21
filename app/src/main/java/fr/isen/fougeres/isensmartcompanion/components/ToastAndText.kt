@@ -34,7 +34,7 @@ import fr.isen.fougeres.isensmartcompanion.backgroundColor
 fun ToastAndTextField() {
 
     val context = LocalContext.current
-    var placeholderText = "Type your request here..."
+    val placeholderText = "Type your request here..."
     var temporaryText by remember{ mutableStateOf("") }
     var userRequest by remember{ mutableStateOf("") }
 
