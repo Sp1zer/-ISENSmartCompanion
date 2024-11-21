@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -31,18 +32,22 @@ import fr.isen.fougeres.isensmartcompanion.backgroundColor
 @OptIn(ExperimentalMaterial3Api::class)
 
 @Composable
-fun ToastAndTextField() {
+fun ToastAndTextField(offsetY: Double) {
 
     val context = LocalContext.current
     val placeholderText = "Type your request here..."
-    var temporaryText by remember{ mutableStateOf("") }
-    var userRequest by remember{ mutableStateOf("") }
+    var temporaryText by remember { mutableStateOf("") }
+    var userRequest by remember { mutableStateOf("") }
+    var mainOffsetY by remember { mutableDoubleStateOf(0.0) }
+    mainOffsetY = offsetY
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .offset(y = 0.dp),
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .offset(y = offsetY.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center)
+        verticalArrangement = Arrangement.Center
+    )
 
     {
         OutlinedTextField(
@@ -51,10 +56,12 @@ fun ToastAndTextField() {
                 .background(backgroundColor),
             textStyle = TextStyle(color = Color.White),
             colors = TextFieldDefaults.outlinedTextFieldColors
-                (focusedBorderColor = Color.Red,
+                (
+                focusedBorderColor = Color.Red,
                 unfocusedBorderColor = Color.White,
                 errorBorderColor = Color.Blue,
-                cursorColor = Color.Red),
+                cursorColor = Color.Red
+            ),
 
             placeholder =
             {
@@ -62,29 +69,29 @@ fun ToastAndTextField() {
             },
             value = temporaryText,
             onValueChange =
-            {
-                    newText -> temporaryText = newText  // Update the state when the user types
+            { newText ->
+                temporaryText = newText  // Update the state when the user types
             })
 
         Button(
             onClick =
             {
-                if(temporaryText.isNotBlank())
-                {
+                if (temporaryText.isNotBlank()) {
                     userRequest = temporaryText
                     temporaryText = ""
                     val toast = Toast.makeText(
-                        context,"Your request has been sent and is now being treated by our smart companion.",
-                        Toast.LENGTH_LONG)
+                        context,
+                        "Your request has been sent and is now being treated by our smart companion.",
+                        Toast.LENGTH_LONG
+                    )
                     toast.show()
 
 
-                }
-                else
-                {
+                } else {
                     val toast = Toast.makeText(
-                        context,"Please write a request.",
-                        Toast.LENGTH_SHORT)
+                        context, "Please write a request.",
+                        Toast.LENGTH_SHORT
+                    )
                     toast.show()
                 }
             })
@@ -96,7 +103,6 @@ fun ToastAndTextField() {
 
 @Preview
 @Composable
-fun PreviewToastAndTextField()
-{
-    ToastAndTextField()
+fun PreviewToastAndTextField(offsetY: Double) {
+    ToastAndTextField(offsetY)
 }
