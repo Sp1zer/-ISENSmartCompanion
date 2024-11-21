@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package fr.isen.fougeres.isensmartcompanion
 
 import android.annotation.SuppressLint
@@ -17,6 +19,7 @@ import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.List
 import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,8 +30,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+/*import fr.isen.fougeres.isensmartcompanion.components.EventObject
+import fr.isen.fougeres.isensmartcompanion.components.PreviewCenteredCroppedImage
 import fr.isen.fougeres.isensmartcompanion.components.PreviewToastAndTextField
-import fr.isen.fougeres.isensmartcompanion.components.TabView
+import fr.isen.fougeres.isensmartcompanion.components.ShowEventObject
+import fr.isen.fougeres.isensmartcompanion.components.TabView*/
+//Je sais que vous avez dit pas de wildcard, mais c'est plus pratique et pour l'instant
+// je n'ai eu aucun problème à cause de ça.
+
+import fr.isen.fougeres.isensmartcompanion.components.*
 import fr.isen.fougeres.isensmartcompanion.ui.theme.ISENSmartCompanionTheme
 
 val backgroundColor = Color(0xFF282828)
@@ -75,7 +85,7 @@ class MainActivity : ComponentActivity() {
             ISENSmartCompanionTheme {
                 Scaffold(
                     bottomBar = { TabView(tabBarItems, navController) },
-                    containerColor = backgroundColor
+                    containerColor = backgroundColor,
                 ) {
                     NavHost(
                         navController = navController, startDestination = homeTab.title
@@ -86,9 +96,15 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(eventsTab.title) {
                             LazyColumn {
-                                // Add a single item
                                 item {
-                                    Text(text = "First item")
+                                    ShowEventObject(EventObject(
+                                        id = "BDE",
+                                        title = "Soirée BDE",
+                                        description = "Lorem Ipsum et tout le tralala.",
+                                        date = "10/03/2025",
+                                        location = "ISEN Yncréa Mediterranee Toulon",
+                                        category = "Divers"
+                                    ))
                                 }
 
                                 // Add 5 items
