@@ -18,30 +18,6 @@ class EventScreen : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            ISENSmartCompanionTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    TESTA(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
         }
-    }
-}
-
-@Composable
-fun TESTA(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun TESTB() {
-    ISENSmartCompanionTheme {
-        TESTA("Android")
     }
 }
