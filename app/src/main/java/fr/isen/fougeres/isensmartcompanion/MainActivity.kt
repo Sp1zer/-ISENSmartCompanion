@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
@@ -73,19 +74,35 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             ISENSmartCompanionTheme {
                 Scaffold(
-                    bottomBar = { TabView(tabBarItems, navController, color = backgroundColor) },
+                    bottomBar = { TabView(tabBarItems, navController) },
                     containerColor = backgroundColor
                 ) {
                     NavHost(
-                        navController = navController,
-                        startDestination = homeTab.title
+                        navController = navController, startDestination = homeTab.title
                     ) {
                         composable(homeTab.title) {
                             PreviewCenteredCroppedImage()
                             PreviewToastAndTextField(75.0)
                         }
                         composable(eventsTab.title) {
+                            LazyColumn {
+                                // Add a single item
+                                item {
+                                    Text(text = "First item")
+                                }
+
+                                // Add 5 items
+                                items(5) { index ->
+                                    Text(text = "Item: $index")
+                                }
+
+                                // Add another single item
+                                item {
+                                    Text(text = "Last item")
+                                }
+                            }
                             Text(eventsTab.title)
+
                         }
                         composable(settingsTab.title) {
                             Text(settingsTab.title)

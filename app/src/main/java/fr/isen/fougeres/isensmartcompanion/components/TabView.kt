@@ -15,9 +15,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
 import fr.isen.fougeres.isensmartcompanion.TabBarItem
+import fr.isen.fougeres.isensmartcompanion.backgroundColor
 
 @Composable
-fun TabView(tabBarItems: List<TabBarItem>, navController: NavController, color: Color) {
+fun TabView(tabBarItems: List<TabBarItem>, navController: NavController) {
     var selectedTabIndex by rememberSaveable {
         mutableIntStateOf(0)
     }
@@ -25,6 +26,7 @@ fun TabView(tabBarItems: List<TabBarItem>, navController: NavController, color: 
     NavigationBar(containerColor = backgroundColor) {
         // looping over each tab to generate the views and navigation for each item
         tabBarItems.forEachIndexed { index, tabBarItem ->
+            val titleColor = Color.White
             NavigationBarItem(selected = selectedTabIndex == index, onClick = {
                 selectedTabIndex = index
                 navController.navigate(tabBarItem.title)
@@ -36,7 +38,7 @@ fun TabView(tabBarItems: List<TabBarItem>, navController: NavController, color: 
                     title = tabBarItem.title,
                     badgeAmount = tabBarItem.badgeAmount
                 )
-            }, label = { Text(tabBarItem.title) })
+            }, label = { Text(tabBarItem.title, color = titleColor) })
         }
     }
 }
@@ -51,13 +53,15 @@ fun TabBarIconView(
     title: String,
     badgeAmount: Int? = null
 ) {
+    val iconColor = Color.White
     BadgedBox(badge = { TabBarBadgeView(badgeAmount) }) {
         Icon(
             imageVector = if (isSelected) {
                 selectedIcon
             } else {
                 unselectedIcon
-            }, contentDescription = title
+            }, contentDescription = title,
+            tint = iconColor
         )
     }
 }
