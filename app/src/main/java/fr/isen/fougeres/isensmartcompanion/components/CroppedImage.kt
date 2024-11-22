@@ -26,8 +26,7 @@ fun CenteredCroppedImage()
 {
     Box(
         modifier = Modifier
-            .offset(y = 100.dp)
-            .wrapContentSize()
+            .offset(y = 0.dp)
             .background(backgroundColor))
     {
         Column(

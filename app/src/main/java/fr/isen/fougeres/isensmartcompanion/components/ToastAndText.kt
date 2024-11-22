@@ -43,10 +43,12 @@ fun ToastAndTextField(offsetY: Double) {
 
     Column(
         modifier = Modifier
+            /*.offset(y = 200.dp) // Start 200.dp from the top
+            .heightIn(min = 100.dp, max = 300.dp) // Limit the height between 100.dp and 300.dp*/
             .fillMaxSize()
             .offset(y = offsetY.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Bottom
     )
 
     {
