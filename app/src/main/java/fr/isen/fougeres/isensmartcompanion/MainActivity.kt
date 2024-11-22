@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package fr.isen.fougeres.isensmartcompanion
 
 /*import fr.isen.fougeres.isensmartcompanion.components.EventObject
@@ -25,15 +23,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -54,13 +48,16 @@ val backgroundColor = Color(0xFF282828)
 class MainActivity : ComponentActivity() {
 
     var eventsList: List<EventObject> = emptyList()
+
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getFirebaseEvent()
         enableEdgeToEdge()
         setContent {
+
             val navController = rememberNavController()
+
             ISENSmartCompanionTheme {
                 Scaffold(
                     bottomBar = { TabView(tabBarItemsList, navController) },
@@ -83,7 +80,7 @@ class MainActivity : ComponentActivity() {
                                 LazyColumn(
                                     verticalArrangement = Arrangement.spacedBy(40.dp)
                                 ) {
-                                    items(count = eventObjectList.size) { index ->
+                                    item {
                                         ProcessRetrievedEventList(eventsList)
                                         //EventScreen(::navigateToDetail)
                                     }
@@ -104,7 +101,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    fun getFirebaseEvent() {
+    private fun getFirebaseEvent() {
         RetrofitClient.apiService.getUsers().enqueue(object : Callback<List<EventObject>> {
             override fun onResponse(
                 call: Call<List<EventObject>>,
@@ -112,7 +109,7 @@ class MainActivity : ComponentActivity() {
             ) {
                 if (response.isSuccessful) {
                     eventsList = response.body()!! // This is a List<EventObject> parsed by Gson
-                    println("Event: ${eventsList}")
+                    println("Event: $eventsList")
                 } else {
                     println("Error: ${response.code()}")
                 }

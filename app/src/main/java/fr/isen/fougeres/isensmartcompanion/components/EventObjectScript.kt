@@ -60,14 +60,9 @@ fun ShowEventObject(
         )
         {
             Text(
-                text = event.id,
-                color = Color.White,
-                fontSize = 30.sp
-            )
-            Text(
                 text = event.title,
                 color = Color.White,
-                fontSize = 20.sp
+                fontSize = 30.sp
             )
             Text(
                 text = event.description,
@@ -77,17 +72,12 @@ fun ShowEventObject(
             Text(
                 text = event.date,
                 color = Color.White,
-                fontSize = 15.sp
+                fontSize = 20.sp
             )
             Text(
                 text = event.location,
                 color = Color.White,
-                fontSize = 15.sp
-            )
-            Text(
-                text = event.category,
-                color = Color.White,
-                fontSize = 15.sp
+                fontSize = 20.sp
             )
         }
     }
