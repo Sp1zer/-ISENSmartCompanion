@@ -134,11 +134,3 @@ fun MoreView() {
         Text("Thing 5")
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ISENSmartCompanionTheme {
-        MoreView()
-    }
-}

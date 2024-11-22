@@ -10,6 +10,7 @@ class EventScreen : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            // Place content here
         }
     }
 }
