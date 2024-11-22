@@ -12,6 +12,7 @@ import fr.isen.fougeres.isensmartcompanion.components.eventObjectList*/
 
 
 import fr.isen.fougeres.isensmartcompanion.components.*
+import fr.isen.fougeres.isensmartcompanion.api.*
 //Je sais que vous avez dit pas de wildcard, mais c'est plus pratique et pour l'instant
 // je n'ai eu aucun problème à cause de ça.
 
@@ -24,12 +25,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,23 +42,22 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import fr.isen.fougeres.isensmartcompanion.api.RetrofitClient
 
 import fr.isen.fougeres.isensmartcompanion.ui.theme.ISENSmartCompanionTheme
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.http.GET
 
 val backgroundColor = Color(0xFF282828)
 
 
 class MainActivity : ComponentActivity() {
 
+    var eventsList: List<EventObject> = emptyList()
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getFirebaseEvent()
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
@@ -78,10 +81,11 @@ class MainActivity : ComponentActivity() {
                             )
                             {
                                 LazyColumn(
-                                    verticalArrangement = Arrangement.spacedBy(20.dp)
+                                    verticalArrangement = Arrangement.spacedBy(40.dp)
                                 ) {
                                     items(count = eventObjectList.size) { index ->
-                                        ShowEventObject(eventObjectList[index])
+                                        ProcessRetrievedEventList(eventsList)
+                                        //EventScreen(::navigateToDetail)
                                     }
                                 }
                             }
@@ -100,18 +104,15 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    fun getFirebaseEvent()
-    {
+    fun getFirebaseEvent() {
         RetrofitClient.apiService.getUsers().enqueue(object : Callback<List<EventObject>> {
             override fun onResponse(
                 call: Call<List<EventObject>>,
                 response: Response<List<EventObject>>
             ) {
                 if (response.isSuccessful) {
-                    val users = response.body() // This is a List<User> parsed by Gson
-                    users?.forEach {
-                        //println("User: ${it.name}, Username: ${it.username}")
-                    }
+                    eventsList = response.body()!! // This is a List<EventObject> parsed by Gson
+                    println("Event: ${eventsList}")
                 } else {
                     println("Error: ${response.code()}")
                 }

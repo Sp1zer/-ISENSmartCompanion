@@ -23,6 +23,19 @@ data class EventObject(
     val category: String
 )
 
+@Composable
+fun ProcessRetrievedEventList(events: List<EventObject>) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        // Iterate over the list of events and display each event using ShowEventObject
+        events.forEach { event ->
+            ShowEventObject(event)  // Passing each EventObject to ShowEventObject
+        }
+    }
+}
+
 
 @Composable
 fun ShowEventObject(
@@ -31,7 +44,11 @@ fun ShowEventObject(
     val context = LocalContext.current
     Button(
         onClick = {
-            val intent = Intent(context, EventScreen::class.java)
+            val intent = Intent(context, EventScreen::class.java)/*.apply
+            {
+                putExtra("event",event)
+            }*/
+
             context.startActivity((intent))
         },
     )
