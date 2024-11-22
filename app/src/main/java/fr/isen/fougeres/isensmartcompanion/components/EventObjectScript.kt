@@ -1,17 +1,17 @@
 package fr.isen.fougeres.isensmartcompanion.components
 
-import androidx.compose.foundation.layout.Arrangement
+import android.content.Intent
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Text
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.sp
+import fr.isen.fougeres.isensmartcompanion.EventScreen
 
 
 data class EventObject(
@@ -23,22 +23,23 @@ data class EventObject(
     val category: String
 )
 
+
 @Composable
 fun ShowEventObject(
-    event:EventObject
+    event: EventObject
 ) {
+    val context = LocalContext.current
     Button(
         onClick = {
-
-        }
+            val intent = Intent(context, EventScreen::class.java)
+            context.startActivity((intent))
+        },
     )
     {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .offset(y = 0.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
         )
         {
             Text(
@@ -73,5 +74,6 @@ fun ShowEventObject(
             )
         }
     }
+
 
 }

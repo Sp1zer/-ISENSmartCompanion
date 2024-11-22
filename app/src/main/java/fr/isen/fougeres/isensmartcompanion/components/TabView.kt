@@ -14,8 +14,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
-import fr.isen.fougeres.isensmartcompanion.TabBarItem
 import fr.isen.fougeres.isensmartcompanion.backgroundColor
+
+data class TabBarItem(
+    val title: String,
+    val selectedIcon: ImageVector,
+    val unselectedIcon: ImageVector,
+    val badgeAmount: Int? = null
+)
 
 @Composable
 fun TabView(tabBarItems: List<TabBarItem>, navController: NavController) {
