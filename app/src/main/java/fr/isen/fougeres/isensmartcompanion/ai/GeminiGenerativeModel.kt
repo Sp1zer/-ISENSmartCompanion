@@ -1,4 +1,4 @@
-package fr.isen.fougeres.isensmartcompanion.components
+package fr.isen.fougeres.isensmartcompanion.ai
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.generationConfig
 import fr.isen.fougeres.isensmartcompanion.BuildConfig
@@ -12,4 +12,5 @@ val model = GenerativeModel(
         topP = 1f
         maxOutputTokens = 4096
     },
+    safetySettings = null
 )

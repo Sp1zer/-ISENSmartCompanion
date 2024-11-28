@@ -16,6 +16,14 @@ material = "1.7.5"
 navigationCompose = "2.8.4"
 retrofit = "2.9.0"
 appcompat = "1.7.0"
+roomCompiler = "2.6.1"
+roomGuava = "2.6.1"
+roomKtx = "2.6.1"
+roomPaging = "2.6.1"
+roomRuntime = "2.6.1"
+roomRxjava2 = "2.6.1"
+roomRxjava3 = "2.6.1"
+roomTesting = "2.6.1"
 secretsGradlePlugin = "2.0.1"
 
 [libraries]
@@ -23,6 +31,14 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-material = { module = "androidx.compose.material:material", version.ref = "material" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
+androidx-room-guava = { module = "androidx.room:room-guava", version.ref = "roomGuava" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
+androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "roomPaging" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
+androidx-room-rxjava2 = { module = "androidx.room:room-rxjava2", version.ref = "roomRxjava2" }
+androidx-room-rxjava3 = { module = "androidx.room:room-rxjava3", version.ref = "roomRxjava3" }
+androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "roomTesting" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 generativeai = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "generativeai" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
