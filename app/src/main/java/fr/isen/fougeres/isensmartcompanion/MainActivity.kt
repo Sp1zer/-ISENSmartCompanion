@@ -99,7 +99,10 @@ class MainActivity : ComponentActivity() {
                             {
                                 LazyColumn(
                                     modifier = Modifier.align(Alignment.TopCenter),
-                                    contentPadding = PaddingValues(vertical = 16.dp, horizontal = 8.dp)
+                                    contentPadding = PaddingValues(
+                                        vertical = 16.dp,
+                                        horizontal = 8.dp
+                                    )
                                 )
                                 {
                                     itemsIndexed(sharedItems) { index, item ->

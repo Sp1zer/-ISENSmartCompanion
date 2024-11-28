@@ -43,6 +43,7 @@ import kotlinx.coroutines.withContext
 
 val sharedItems = mutableStateListOf<String>() // Shared list
 val userRequest: MutableState<String> = mutableStateOf("")
+var aiAnswer = ""
 
 @Composable
 fun ToastAndTextField(offsetY: Double) {
@@ -81,38 +82,41 @@ fun ToastAndTextField(offsetY: Double) {
                 temporaryText = newText  // Update the state when the user types
             })
 
-        Button(modifier = Modifier.border(
-            width = 2.dp, // Thickness of the border
-            color = Color.Red, // Color of the border
-            shape = ButtonDefaults.shape
-        ), colors = ButtonDefaults.buttonColors(
-            containerColor = backgroundColor, // Background color of the button
-            contentColor = Color.White,  // Text or icon color inside the button
-            disabledContainerColor = Color.Black, // Background color when disabled
-            disabledContentColor = Color.Gray // Text color when disabled
-        ), onClick = {
-            if (temporaryText.isNotBlank()) {
-                userRequest.value = temporaryText
-                temporaryText = ""
-                CoroutineScope(Dispatchers.IO).launch {
-                    try {
-                        val aiAnswer = generateContentResponse(userRequest.value)
-                        withContext(Dispatchers.Main) {
-                            Log.d("ZIMBABWE", aiAnswer.toString())
-                            sharedItems.add(userRequest.value)
-                            sharedItems.add(aiAnswer)
+        Button(
+            modifier = Modifier.border(
+                width = 2.dp, // Thickness of the border
+                color = Color.Red, // Color of the border
+                shape = ButtonDefaults.shape
+            ),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = backgroundColor, // Background color of the button
+                contentColor = Color.White,  // Text or icon color inside the button
+                disabledContainerColor = Color.Black, // Background color when disabled
+                disabledContentColor = Color.Gray // Text color when disabled
+            ),
+            onClick = {
+                if (temporaryText.isNotBlank()) {
+                    userRequest.value = temporaryText
+                    temporaryText = ""
+                    CoroutineScope(Dispatchers.IO).launch {
+                        try {
+                            aiAnswer = generateContentResponse(userRequest.value)
+                            withContext(Dispatchers.Main) {
+                                Log.d("ZIMBABWE", aiAnswer.toString())
+                                sharedItems.add(userRequest.value)
+                                sharedItems.add(aiAnswer)
+                            }
+                        } catch (e: Exception) {
+                            Log.e("Error", "Failed to generate content", e)
                         }
-                    } catch (e: Exception) {
-                        Log.e("Error", "Failed to generate content", e)
                     }
+                } else {
+                    val toast = Toast.makeText(
+                        context, "Please write a request.", Toast.LENGTH_SHORT
+                    )
+                    toast.show()
                 }
-            } else {
-                val toast = Toast.makeText(
-                    context, "Please write a request.", Toast.LENGTH_SHORT
-                )
-                toast.show()
-            }
-        }) {
+            }) {
             Text(text = "Send request")
         }
     }
