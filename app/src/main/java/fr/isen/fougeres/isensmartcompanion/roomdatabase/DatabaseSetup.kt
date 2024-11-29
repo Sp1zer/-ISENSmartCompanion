@@ -44,6 +44,12 @@ interface UserDao {
 
     @Query("DELETE FROM user")
     fun deleteAllUsers()
+
+    @Query("SELECT request FROM user WHERE uid = :userId LIMIT 1")
+    fun getRequestByUserId(userId: Int): String
+
+    @Query("SELECT answer FROM user WHERE uid = :userId LIMIT 1")
+    fun getAnswerByUserId(userId: Int): String
 }
 
 @Database(entities = [User::class], version = 1)

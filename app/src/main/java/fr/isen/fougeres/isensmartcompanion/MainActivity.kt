@@ -52,7 +52,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
-
             ISENSmartCompanionTheme {
                 Scaffold(
                     bottomBar = { TabView(tabBarItemsList, navController) },

@@ -1,114 +1,148 @@
 package fr.isen.fougeres.isensmartcompanion.roomdatabase
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicText
-import androidx.compose.material3.Text
+import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import fr.isen.fougeres.isensmartcompanion.backgroundColor
 import fr.isen.fougeres.isensmartcompanion.components.StylishBox
-import fr.isen.fougeres.isensmartcompanion.components.sharedItems
+import fr.isen.fougeres.isensmartcompanion.components.StylishButton
+import kotlinx.coroutines.async
 
 
 @Composable
 fun ShowHistory() {
-    Box(
-        modifier = Modifier
-            .offset(y = 25.dp)
-            .heightIn(
-                min = 100.dp, max = 775.dp
-            )
-            .clip(RoundedCornerShape(48.dp))
-            .fillMaxSize(),
-    ) {
+    //cleanDatabase(LocalContext.current)
 
-        LazyColumn(
+    val rounding = 24
+    val context = LocalContext.current
+    val userCount = remember { mutableIntStateOf(0) }
+
+
+    LaunchedEffect(Unit) {
+
+        val userCountDeferred = async { getUserCount(context) }
+        userCount.intValue = userCountDeferred.await()
+    }
+    Column() {
+        Box(
             modifier = Modifier
-                .align(Alignment.TopCenter),
-            contentPadding = PaddingValues(
-                vertical = 16.dp,
-                horizontal = 8.dp
-            )
-        )
-        {
-            items(5) { index ->
-                StylishBox(24.0, 4.0, backgroundColor, Color.Red, Color.White, Arrangement.Center, "This is a test.", 12.0)
-            }
-        }
-
-
-
-
-
-
-        LazyColumn(
-            modifier = Modifier.align(Alignment.TopCenter), contentPadding = PaddingValues(
-                vertical = 16.dp, horizontal = 8.dp
-            )
+                .offset(y = 25.dp)
+                .heightIn(
+                    min = 100.dp, max = 675.dp
+                )
+                .clip(RoundedCornerShape(48.dp))
+                .fillMaxSize(),
         ) {
-            itemsIndexed(sharedItems) { index, item ->
+            LazyColumn(
+                modifier = Modifier.align(Alignment.TopCenter), contentPadding = PaddingValues(
+                    vertical = 16.dp, horizontal = 8.dp
+                )
+            ) {
+                Log.d("counter", userCount.intValue.toString())
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
-                    horizontalArrangement = if (index % 2 == 0) {
-                        Arrangement.Start
-                    } else {
-                        Arrangement.End
+                items(userCount.intValue) { index ->
+
+                    val requestState = remember { mutableStateOf<String?>(null) }
+                    val answerState = remember { mutableStateOf<String?>(null) }
+
+                    LaunchedEffect(Unit) {
+                        val requestDeferred =
+                            async { getRequestForUser(userCount.intValue - (index), context) }
+                        val answerDeferred =
+                            async { getAnswerForUser(userCount.intValue - (index), context) }
+                        requestState.value = requestDeferred.await()
+                        answerState.value = answerDeferred.await()
                     }
-                ) {
-                    Text(
-                        text = item, modifier = Modifier
-                            .border(
-                                width = 4.dp, // Border width
-                                color = if (index % 2 == 0) Color.White else Color.Red, // Border color
-                                shape = RoundedCornerShape(24.dp)
-                            )
-                            .background(
-                                color = backgroundColor,
-                                shape = RoundedCornerShape(24.dp) // Rounded corners
-                            )
-                            .padding(
-                                horizontal = 12.dp, vertical = 12.dp
-                            ), color = Color.White
-                    )
+
+                    Column(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(rounding / 2))
+                            .fillMaxSize()
+                            .background(Color.DarkGray)
+                            .padding(12.dp)
+                    ) {
+
+                        StylishBox(
+                            24.0,
+                            4.0,
+                            backgroundColor,
+                            Color.Red,
+                            Color.White,
+                            Alignment.TopStart,
+                            text = ("Question : \n" + requestState.value)
+                                ?: "Loading...", // Fallback text while loading
+                            12.0
+                        )
+
+                        StylishBox(
+                            rounding.toDouble(),
+                            4.0,
+                            backgroundColor,
+                            Color.White,
+                            Color.White,
+                            Alignment.Center,
+                            text = ("Answer : \n" + answerState.value)
+                                ?: "Loading...", // Fallback text while loading
+                            12.0
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(rounding.dp))
                 }
             }
         }
-    }
-}
 
-@Composable
-fun UserRow(user: User) {
-    Row(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(8.dp)
-    ) {
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            BasicText(text = "First Name: ${user.request ?: "N/A"}")
-            BasicText(text = "Last Name: ${user.answer ?: "N/A"}")
-        }
+        Spacer(modifier = Modifier.height(rounding.dp * 2))
+
+        StylishButton(
+            rounding.toDouble(),
+            4.0,
+            backgroundColor,
+            Color.Red,
+            Color.White,
+            Alignment.Center,
+            text = " Clear History ?",
+            12.0,
+            onClick = {
+                cleanDatabase(context)
+                val toast = Toast.makeText(
+                    context, "Database Cleaned, please refresh the page to actualize the changes.", Toast.LENGTH_SHORT
+                )
+                toast.show()
+            }
+        )
+
+        /*StylishBox(
+            rounding.toDouble(),
+            4.0,
+            backgroundColor,
+            Color.Red,
+            Color.White,
+            Alignment.Center,
+            text = " Clear History ?",
+            12.0
+        )*/
     }
 }

@@ -7,12 +7,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 fun addInteractionToDatabase(request: String, answer: String, context: Context) {
-    // Run the database operation within a coroutine
     CoroutineScope(Dispatchers.Main).launch {
         DatabaseManager.getInstance(context).executeDatabaseOperation { db ->
             val dao = db.userDao()
             dao.insertAll(User(dao.getUserCount() + 1, request, answer))
-            Log.d("ZIMBABWE", request + dao.getUserCount().toString())
+            Log.d("TEST", answer)
         }
     }
 }
@@ -27,12 +26,28 @@ fun cleanDatabase(context: Context) {
     }
 }
 
-fun cleanEntryInDatabase(id: Int,context: Context)
-{
+fun cleanEntryInDatabase(id: Int, context: Context) {
     CoroutineScope(Dispatchers.Main).launch {
         DatabaseManager.getInstance(context).executeDatabaseOperation { db ->
             /*TODO()*/
         }
-        Log.d("ZIMBABWE", "Database cleaned.")
+    }
+}
+
+suspend fun getUserCount(context: Context): Int {
+    return DatabaseManager.getInstance(context).executeDatabaseOperation { db ->
+        db.userDao().getUserCount()
+    }
+}
+
+suspend fun getRequestForUser(userId: Int, context: Context): String {
+    return DatabaseManager.getInstance(context).executeDatabaseOperation { db ->
+        db.userDao().getRequestByUserId(userId)
+    }
+}
+
+suspend fun getAnswerForUser(userId: Int, context: Context): String {
+    return DatabaseManager.getInstance(context).executeDatabaseOperation { db ->
+        db.userDao().getAnswerByUserId(userId)
     }
 }
