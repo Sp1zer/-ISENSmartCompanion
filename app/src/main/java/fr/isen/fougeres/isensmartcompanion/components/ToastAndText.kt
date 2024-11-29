@@ -34,17 +34,17 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import fr.isen.fougeres.isensmartcompanion.ai.model
 import fr.isen.fougeres.isensmartcompanion.backgroundColor
+import fr.isen.fougeres.isensmartcompanion.roomdatabase.addInteractionToDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-@OptIn(ExperimentalMaterial3Api::class)
-
 val sharedItems = mutableStateListOf<String>() // Shared list
 val userRequest: MutableState<String> = mutableStateOf("")
 var aiAnswer = ""
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ToastAndTextField(offsetY: Double) {
 
@@ -82,41 +82,47 @@ fun ToastAndTextField(offsetY: Double) {
                 temporaryText = newText  // Update the state when the user types
             })
 
-        Button(
-            modifier = Modifier.border(
-                width = 2.dp, // Thickness of the border
-                color = Color.Red, // Color of the border
-                shape = ButtonDefaults.shape
-            ),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = backgroundColor, // Background color of the button
-                contentColor = Color.White,  // Text or icon color inside the button
-                disabledContainerColor = Color.Black, // Background color when disabled
-                disabledContentColor = Color.Gray // Text color when disabled
-            ),
-            onClick = {
-                if (temporaryText.isNotBlank()) {
-                    userRequest.value = temporaryText
-                    temporaryText = ""
-                    CoroutineScope(Dispatchers.IO).launch {
-                        try {
-                            aiAnswer = generateContentResponse(userRequest.value)
-                            withContext(Dispatchers.Main) {
-                                Log.d("ZIMBABWE", aiAnswer.toString())
-                                sharedItems.add(userRequest.value)
-                                sharedItems.add(aiAnswer)
-                            }
-                        } catch (e: Exception) {
-                            Log.e("Error", "Failed to generate content", e)
+        Button(modifier = Modifier.border(
+            width = 2.dp, // Thickness of the border
+            color = Color.Red, // Color of the border
+            shape = ButtonDefaults.shape
+        ), colors = ButtonDefaults.buttonColors(
+            containerColor = backgroundColor, // Background color of the button
+            contentColor = Color.White,  // Text or icon color inside the button
+            disabledContainerColor = Color.Black, // Background color when disabled
+            disabledContentColor = Color.Gray // Text color when disabled
+        ), onClick = {
+            if (temporaryText.isNotBlank()) {
+                userRequest.value = temporaryText
+                temporaryText = ""
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        aiAnswer = generateContentResponse(userRequest.value)
+                        withContext(Dispatchers.Main) {
+                            sharedItems.add(userRequest.value)
+                            sharedItems.add(aiAnswer)
                         }
+                    } catch (e: Exception) {
+                        Log.e("Error", "Failed to generate content", e)
                     }
-                } else {
-                    val toast = Toast.makeText(
-                        context, "Please write a request.", Toast.LENGTH_SHORT
-                    )
-                    toast.show()
                 }
-            }) {
+                addInteractionToDatabase(
+                    userRequest.value,
+                    aiAnswer,
+                    context
+                    // BE CAREFUL, IT DOESN'T MAGICALLY ERASE THE PREVIOUS ADDITIONS
+                    // TO THE DATABASE. YOU ALSO NEED TO CLEAN IT FOR DEV PURPOSES
+                    // AND FIND A WAY TO GET THE LENGTH OF THE DB.
+                )
+
+
+            } else {
+                val toast = Toast.makeText(
+                    context, "Please write a request.", Toast.LENGTH_SHORT
+                )
+                toast.show()
+            }
+        }) {
             Text(text = "Send request")
         }
     }
