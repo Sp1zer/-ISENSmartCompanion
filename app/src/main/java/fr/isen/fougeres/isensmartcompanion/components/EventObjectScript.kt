@@ -51,10 +51,9 @@ fun ShowEventObject(
             containerColor = Color.Gray
         ),
         onClick = {
-            val intent = Intent(context, EventScreen::class.java)/*.apply
-            {
-                putExtra("event",event)
-            }*/
+            val intent = Intent(context, EventScreen::class.java)
+            /*val strName: String? = null
+            intent.putExtra("STRING_I_NEED", strName)*/
 
             context.startActivity((intent))
         },
