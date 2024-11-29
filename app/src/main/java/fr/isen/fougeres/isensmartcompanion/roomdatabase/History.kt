@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
@@ -92,8 +91,7 @@ fun ShowHistory() {
                             Color.Red,
                             Color.White,
                             Alignment.TopStart,
-                            text = ("Question : \n" + requestState.value)
-                                ?: "Loading...", // Fallback text while loading
+                            text = ("Question : \n" + requestState.value),
                             12.0
                         )
 
@@ -104,8 +102,7 @@ fun ShowHistory() {
                             Color.White,
                             Color.White,
                             Alignment.Center,
-                            text = ("Answer : \n" + answerState.value)
-                                ?: "Loading...", // Fallback text while loading
+                            text = ("Answer : \n" + answerState.value),
                             12.0
                         )
                     }
