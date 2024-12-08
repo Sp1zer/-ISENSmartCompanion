@@ -24,10 +24,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import fr.isen.fougeres.isensmartcompanion.backgroundColor
 import fr.isen.fougeres.isensmartcompanion.components.StylishBox
 import fr.isen.fougeres.isensmartcompanion.components.StylishButton
+import fr.isen.fougeres.isensmartcompanion.components.StylishText
 import kotlinx.coroutines.async
 
 
@@ -41,11 +43,10 @@ fun ShowHistory() {
 
 
     LaunchedEffect(Unit) {
-
         val userCountDeferred = async { getUserCount(context) }
         userCount.intValue = userCountDeferred.await()
     }
-    Column() {
+    Column {
         Box(
             modifier = Modifier
                 .offset(y = 25.dp)
@@ -85,26 +86,40 @@ fun ShowHistory() {
                     ) {
 
                         StylishBox(
-                            24.0,
-                            4.0,
-                            backgroundColor,
-                            Color.Red,
-                            Color.White,
-                            Alignment.TopStart,
-                            text = ("Question : \n" + requestState.value),
-                            12.0
-                        )
+                            rounding = 24.0,
+                            outlineWidth = 4.0,
+                            backgroundColor = backgroundColor,
+                            outlineColor = Color.Red,
+                            padding = 24.0,
+                            offset = 0,
+                            heightMin = 50,
+                            heightMax = null
+                        ) {
+                            StylishText(
+                                Color.White,
+                                TextAlign.Center,
+                                text = ("Question : \n" + requestState.value),
+                                12.0
+                            )
+                        }
 
                         StylishBox(
                             rounding.toDouble(),
                             4.0,
                             backgroundColor,
                             Color.White,
-                            Color.White,
-                            Alignment.Center,
-                            text = ("Answer : \n" + answerState.value),
-                            12.0
-                        )
+                            12.0,
+                            0,
+                            100,
+                            null,
+                        ) {
+                            StylishText(
+                                Color.White,
+                                TextAlign.Center,
+                                text = ("Answer : \n" + answerState.value),
+                                12.0
+                            )
+                        }
                     }
                     Spacer(modifier = Modifier.height(rounding.dp))
                 }
@@ -113,8 +128,7 @@ fun ShowHistory() {
 
         Spacer(modifier = Modifier.height(rounding.dp * 2))
 
-        StylishButton(
-            rounding.toDouble(),
+        StylishButton(rounding.toDouble(),
             4.0,
             backgroundColor,
             Color.Red,
@@ -125,21 +139,11 @@ fun ShowHistory() {
             onClick = {
                 cleanDatabase(context)
                 val toast = Toast.makeText(
-                    context, "Database Cleaned, please refresh the page to actualize the changes.", Toast.LENGTH_SHORT
+                    context,
+                    "Database Cleaned, please refresh the page to actualize the changes.",
+                    Toast.LENGTH_SHORT
                 )
                 toast.show()
-            }
-        )
-
-        /*StylishBox(
-            rounding.toDouble(),
-            4.0,
-            backgroundColor,
-            Color.Red,
-            Color.White,
-            Alignment.Center,
-            text = " Clear History ?",
-            12.0
-        )*/
+            })
     }
 }

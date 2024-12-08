@@ -12,10 +12,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import fr.isen.fougeres.isensmartcompanion.EventScreen
 
+var eventsList = emptyList<EventObject>()
 
 data class EventObject(
     val id: String,
@@ -54,39 +56,27 @@ fun ShowEventObject(
             val intent = Intent(context, EventScreen::class.java)
             /*val strName: String? = null
             intent.putExtra("STRING_I_NEED", strName)*/
-
             context.startActivity((intent))
         },
     )
     {
         Column(
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
-        )
-        {
-            Text(
-                text = event.title,
-                color = Color.White,
-                fontSize = 30.sp
-            )
-            Text(
-                text = event.description,
-                color = Color.White,
-                fontSize = 10.sp
-            )
-            Text(
-                text = event.date,
-                color = Color.White,
-                fontSize = 20.sp
-            )
-            Text(
-                text = event.location,
-                color = Color.White,
-                fontSize = 20.sp
-            )
+        ) {
+            EventText(text = event.title, fontSize = 30.sp)
+            EventText(text = event.description, fontSize = 10.sp)
+            EventText(text = event.date, fontSize = 20.sp)
+            EventText(text = event.location, fontSize = 20.sp)
         }
     }
+}
 
-
+@Composable
+fun EventText(text: String, fontSize: TextUnit) {
+    Text(
+        text = text,
+        color = Color.White,
+        fontSize = fontSize
+    )
 }

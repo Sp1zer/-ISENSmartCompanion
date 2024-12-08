@@ -1,7 +1,7 @@
 package fr.isen.fougeres.isensmartcompanion.api
 
 import fr.isen.fougeres.isensmartcompanion.components.EventObject
-import fr.isen.fougeres.isensmartcompanion.eventsList
+import fr.isen.fougeres.isensmartcompanion.components.eventsList
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

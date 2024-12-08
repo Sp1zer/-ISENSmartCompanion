@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">ISENSmartCompanion</string>
     <string name="title_activity_event_screen">EventScreen</string>
+    <string name="title_activity_main_screen">MainScreen</string>
+    <string name="title_activity_agenda_screen">AgendaScreen</string>
+    <string name="title_activity_history_screen">HistoryScreen</string>
 </resources>
