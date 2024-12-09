@@ -1,32 +1,32 @@
 package fr.isen.fougeres.isensmartcompanion
 
 import android.content.Context
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import fr.isen.fougeres.isensmartcompanion.components.tabBarItemsList
 import fr.isen.fougeres.isensmartcompanion.roomdatabase.ShowHistory
 
-class HistoryScreen : BaseScreen() {
-    override fun getStartDestination(): String {
-        return tabBarItemsList[3].title
+class HistoryScreen : ComponentActivity() {
+    private val sharedViewModel: SharedViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+
+        // Set the current destination
+        sharedViewModel.currentDestination = tabBarItemsList[3].title
+
+        setContent {
+            HistoryScreenContent(sharedViewModel)
+        }
     }
 
     @Composable
-    override fun OnTab0Selected(context: Context) {
-        super.OnTab0Selected(context)
-    }
-
-    @Composable
-    override fun OnTab1Selected(context: Context) {
-        super.OnTab1Selected(context)
-    }
-
-    @Composable
-    override fun OnTab2Selected(context: Context) {
-        super.OnTab2Selected(context)
-    }
-
-    @Composable
-    override fun OnTab3Selected(context: Context) {
+    fun HistoryScreenContent(sharedViewModel: SharedViewModel) {
         // Implement specific behavior for Tab 3
         ShowHistory() // Call a method to show history
     }

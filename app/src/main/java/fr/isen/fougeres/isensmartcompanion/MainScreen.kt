@@ -1,6 +1,11 @@
 package fr.isen.fougeres.isensmartcompanion
 
 import android.content.Context
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -21,13 +26,23 @@ import fr.isen.fougeres.isensmartcompanion.components.StylishText
 import fr.isen.fougeres.isensmartcompanion.components.sharedItems
 import fr.isen.fougeres.isensmartcompanion.components.tabBarItemsList
 
-class MainScreen : BaseScreen() {
-    override fun getStartDestination(): String {
-        return tabBarItemsList[0].title
+class MainScreen : ComponentActivity() {
+    private val sharedViewModel: SharedViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+
+        // Set the current destination
+        sharedViewModel.currentDestination = tabBarItemsList[0].title
+
+        setContent {
+            MainScreenContent(sharedViewModel)
+        }
     }
 
     @Composable
-    override fun OnTab0Selected(context: Context) {
+    fun MainScreenContent(sharedViewModel: SharedViewModel) {
         // Implement specific behavior for Tab 0
         PreviewCenteredCroppedImage()
         StylishBox(
@@ -77,20 +92,5 @@ class MainScreen : BaseScreen() {
             }
         }
         PreviewToastAndTextField(-110.0)
-    }
-
-    @Composable
-    override fun OnTab1Selected(context: Context) {
-        super.OnTab1Selected(context)
-    }
-
-    @Composable
-    override fun OnTab2Selected(context: Context) {
-        super.OnTab2Selected(context)
-    }
-
-    @Composable
-    override fun OnTab3Selected(context: Context) {
-        super.OnTab3Selected(context)
     }
 }

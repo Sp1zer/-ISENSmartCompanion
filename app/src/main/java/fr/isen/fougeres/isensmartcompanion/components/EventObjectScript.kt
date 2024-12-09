@@ -31,7 +31,6 @@ data class EventObject(
 
 @Composable
 fun ProcessRetrievedEventList(events: List<EventObject>) {
-    getFirebaseEvent()
     Column(
         modifier = Modifier
             .fillMaxSize(),
