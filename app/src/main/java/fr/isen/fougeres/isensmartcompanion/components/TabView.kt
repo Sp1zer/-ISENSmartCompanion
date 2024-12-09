@@ -25,32 +25,33 @@ data class TabBarItem(
 
 @Composable
 fun TabView(tabBarItems: List<TabBarItem>, navController: NavController) {
-    var selectedTabIndex by rememberSaveable {
-        mutableIntStateOf(0)
-    }
+    var selectedTabIndex by rememberSaveable { mutableIntStateOf(0) }
 
     NavigationBar(containerColor = backgroundColor) {
-        // looping over each tab to generate the views and navigation for each item
         tabBarItems.forEachIndexed { index, tabBarItem ->
-            val titleColor = Color.White
-            NavigationBarItem(selected = selectedTabIndex == index, onClick = {
-                selectedTabIndex = index
-                navController.navigate(tabBarItem.title)
-            }, icon = {
-                TabBarIconView(
-                    isSelected = selectedTabIndex == index,
-                    selectedIcon = tabBarItem.selectedIcon,
-                    unselectedIcon = tabBarItem.unselectedIcon,
-                    title = tabBarItem.title,
-                    badgeAmount = tabBarItem.badgeAmount
-                )
-            }, label = { Text(tabBarItem.title, color = titleColor) })
+            NavigationBarItem(
+                selected = selectedTabIndex == index,
+                onClick = {
+                    selectedTabIndex = index
+                    navController.navigate(tabBarItem.title)
+                },
+                icon = {
+                    TabBarIconView(
+                        isSelected = selectedTabIndex == index,
+                        selectedIcon = tabBarItem.selectedIcon,
+                        unselectedIcon = tabBarItem.unselectedIcon,
+                        title = tabBarItem.title,
+                        badgeAmount = tabBarItem.badgeAmount
+                    )
+                },
+                label = {
+                    Text(tabBarItem.title, color = Color.White)
+                }
+            )
         }
     }
 }
 
-// This component helps to clean up the API call from our TabView above,
-// but could just as easily be added inside the TabView without creating this custom component
 @Composable
 fun TabBarIconView(
     isSelected: Boolean,
@@ -62,24 +63,18 @@ fun TabBarIconView(
     val iconColor = Color.White
     BadgedBox(badge = { TabBarBadgeView(badgeAmount) }) {
         Icon(
-            imageVector = if (isSelected) {
-                selectedIcon
-            } else {
-                unselectedIcon
-            }, contentDescription = title,
+            imageVector = if (isSelected) selectedIcon else unselectedIcon,
+            contentDescription = title,
             tint = iconColor
         )
     }
 }
 
-// This component helps to clean up the API call from our TabBarIconView above,
-// but could just as easily be added inside the TabBarIconView without creating this custom component
-
 @Composable
 fun TabBarBadgeView(count: Int? = null) {
-    if (count != null) {
+    count?.let {
         Badge {
-            Text(count.toString())
+            Text(it.toString())
         }
     }
 }
