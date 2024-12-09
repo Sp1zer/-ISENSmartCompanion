@@ -1,6 +1,5 @@
 package fr.isen.fougeres.isensmartcompanion.api
 
-import android.util.Log
 import fr.isen.fougeres.isensmartcompanion.components.EventObject
 import fr.isen.fougeres.isensmartcompanion.components.eventsList
 import retrofit2.Call

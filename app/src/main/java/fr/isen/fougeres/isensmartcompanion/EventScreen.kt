@@ -1,4 +1,3 @@
-@file:Suppress("UNREACHABLE_CODE")
 
 package fr.isen.fougeres.isensmartcompanion
 
