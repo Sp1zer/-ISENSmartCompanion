@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import fr.isen.fougeres.isensmartcompanion.EventScreen
-import fr.isen.fougeres.isensmartcompanion.api.getFirebaseEvent
 
 var eventsList = emptyList<EventObject>()
 
