@@ -1,7 +1,6 @@
 package fr.isen.fougeres.isensmartcompanion
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -27,69 +26,53 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val context = LocalContext.current
-            val navController = rememberNavController()
+            MainContent()
+        }
+    }
+}
 
-            Scaffold(
-                bottomBar = { TabView(tabBarItemsList, navController) },
-                containerColor = backgroundColor,
-            ) {
-                NavHost(
-                    navController = navController, startDestination = getStartDestination()
-                ) {
-                    for (index in tabBarItemsList.indices) {
-                        composable(tabBarItemsList[index].title) {
-                            OnTabSelected(index, context)
-                        }
-                    }
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@Composable
+fun MainContent() {
+    val navController = rememberNavController()
+
+    Scaffold(
+        bottomBar = { TabView(tabBarItemsList, navController) },
+        containerColor = backgroundColor,
+    ) {
+        NavHost(navController = navController, startDestination = tabBarItemsList[0].title) {
+            tabBarItemsList.forEachIndexed { index, tabItem ->
+                composable(tabItem.title) {
+                    OnTabSelected(index)
                 }
             }
         }
     }
+}
 
-    private fun getStartDestination(): String {
-        return tabBarItemsList[0].title // Example start destination
+@Composable
+private fun OnTabSelected(index: Int) {
+    val context = LocalContext.current
+    val targetActivity = when (index) {
+        0 -> MainScreen::class.java
+        1 -> EventScreen::class.java
+        2 -> AgendaScreen::class.java
+        3 -> HistoryScreen::class.java
+        else -> return // Handle unexpected index
     }
+    startActivityWithIntent(context, targetActivity, tabBarItemsList[index].title)
+}
 
-    @Composable
-    private fun OnTabSelected(index: Int, context: Context) {
-        when (index) {
-            0 -> startActivityWithIntent(
-                context,
-                MainScreen::class.java,
-                tabBarItemsList[0].title
-            )
-
-            1 -> startActivityWithIntent(
-                context,
-                EventScreen::class.java,
-                tabBarItemsList[1].title
-            )
-
-            2 -> startActivityWithIntent(
-                context,
-                AgendaScreen::class.java,
-                tabBarItemsList[2].title
-            )
-
-            3 -> startActivityWithIntent(
-                context,
-                HistoryScreen::class.java,
-                tabBarItemsList[3].title
-            )
-        }
+private fun startActivityWithIntent(
+    context: Context,
+    clazz: Class<*>,
+    currentDestination: String
+) {
+    val intent = Intent(context, clazz).apply {
+        putExtra("currentDestination", currentDestination)
+        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
     }
-
-    private fun startActivityWithIntent(
-        context: Context,
-        clazz: Class<*>,
-        currentDestination: String
-    ) {
-        val intent = Intent(context, clazz)
-        intent.putExtra("currentDestination", currentDestination)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-        context.startActivity(intent)
-    }
+    context.startActivity(intent)
 }
 
 abstract class BaseScreen : ComponentActivity() {
@@ -98,20 +81,23 @@ abstract class BaseScreen : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val context = LocalContext.current
-            val navController = rememberNavController()
+            BaseScreenContent()
+        }
+    }
 
-            Scaffold(
-                bottomBar = { TabView(tabBarItemsList, navController) },
-                containerColor = backgroundColor,
-            ) {
-                NavHost(
-                    navController = navController, startDestination = getStartDestination()
-                ) {
-                    for (index in tabBarItemsList.indices) {
-                        composable(tabBarItemsList[index].title) {
-                            OnTabSelected(index, context)
-                        }
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+    @Composable
+    private fun BaseScreenContent() {
+        val navController = rememberNavController()
+
+        Scaffold(
+            bottomBar = { TabView(tabBarItemsList, navController) },
+            containerColor = backgroundColor,
+        ) {
+            NavHost(navController = navController, startDestination = getStartDestination()) {
+                tabBarItemsList.forEachIndexed { index, tabItem ->
+                    composable(tabItem.title) {
+                        OnTabSelected(index, LocalContext.current)
                     }
                 }
             }
@@ -159,8 +145,9 @@ abstract class BaseScreen : ComponentActivity() {
         clazz: Class<*>,
         currentDestination: String
     ) {
-        val intent = Intent(context, clazz)
-        intent.putExtra("currentDestination", currentDestination)
+        val intent = Intent(context, clazz).apply {
+            putExtra("currentDestination", currentDestination)
+        }
         context.startActivity(intent)
     }
 }

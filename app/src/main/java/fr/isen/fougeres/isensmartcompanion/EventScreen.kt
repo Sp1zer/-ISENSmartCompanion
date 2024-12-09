@@ -1,3 +1,5 @@
+@file:Suppress("UNREACHABLE_CODE")
+
 package fr.isen.fougeres.isensmartcompanion
 
 import android.content.Context
@@ -27,6 +29,7 @@ class EventScreen : BaseScreen() {
 
     @Composable
     override fun OnTab1Selected(context: Context) {
+        Log.d("ZIMBABWE", "ASKIP C'EST CENSÉ MARCHER")
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -41,8 +44,6 @@ class EventScreen : BaseScreen() {
                 }
             }
         }
-
-        Log.d("ZIMBABWE", "TEEEEEEEEEEEEEEEEEEEEEEEEST")
     }
 
     @Composable

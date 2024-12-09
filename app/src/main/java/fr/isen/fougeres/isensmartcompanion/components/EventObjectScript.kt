@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import fr.isen.fougeres.isensmartcompanion.EventScreen
+import fr.isen.fougeres.isensmartcompanion.api.getFirebaseEvent
 
 var eventsList = emptyList<EventObject>()
 
@@ -30,6 +31,7 @@ data class EventObject(
 
 @Composable
 fun ProcessRetrievedEventList(events: List<EventObject>) {
+    getFirebaseEvent()
     Column(
         modifier = Modifier
             .fillMaxSize(),
