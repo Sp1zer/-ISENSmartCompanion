@@ -16,6 +16,10 @@ import androidx.navigation.compose.rememberNavController
 import fr.isen.fougeres.isensmartcompanion.api.getFirebaseEvent
 import fr.isen.fougeres.isensmartcompanion.components.TabView
 import fr.isen.fougeres.isensmartcompanion.components.tabBarItemsList
+import fr.isen.fougeres.isensmartcompanion.screens.AgendaScreen
+import fr.isen.fougeres.isensmartcompanion.screens.EventScreen
+import fr.isen.fougeres.isensmartcompanion.screens.HistoryScreen
+import fr.isen.fougeres.isensmartcompanion.screens.MainScreen
 
 
 val backgroundColor = Color(0xFF282828)
@@ -54,10 +58,10 @@ fun MainContent(sharedViewModel: SharedViewModel) {
             tabBarItemsList.forEachIndexed { index, tabItem ->
                 composable(tabItem.title) {
                     when (index) {
-                        0 -> MainScreen().MainScreenContent(sharedViewModel)
-                        1 -> EventScreen().EventScreenContent(sharedViewModel)
-                        2 -> AgendaScreen().AgendaScreenContent(sharedViewModel)
-                        3 -> HistoryScreen().HistoryScreenContent(sharedViewModel)
+                        0 -> MainScreen().MainScreenContent()
+                        1 -> EventScreen().EventScreenContent()
+                        2 -> AgendaScreen().AgendaScreenContent()
+                        3 -> HistoryScreen().HistoryScreenContent()
                     }
                 }
             }

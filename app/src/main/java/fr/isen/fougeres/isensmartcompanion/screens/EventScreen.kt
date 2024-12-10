@@ -1,7 +1,6 @@
-package fr.isen.fougeres.isensmartcompanion
+package fr.isen.fougeres.isensmartcompanion.screens
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -15,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import fr.isen.fougeres.isensmartcompanion.SharedViewModel
 import fr.isen.fougeres.isensmartcompanion.components.ProcessRetrievedEventList
 import fr.isen.fougeres.isensmartcompanion.components.eventsList
 import fr.isen.fougeres.isensmartcompanion.components.tabBarItemsList
@@ -30,13 +30,12 @@ class EventScreen : ComponentActivity() {
         sharedViewModel.currentDestination = tabBarItemsList[1].title
 
         setContent {
-            EventScreenContent(sharedViewModel)
+            EventScreenContent()
         }
     }
 
     @Composable
-    fun EventScreenContent(sharedViewModel: SharedViewModel) {
-        Log.d("ZIMBABWE", "ASKIP C'EST CENSÉ MARCHER")
+    fun EventScreenContent() {
         Box(
             modifier = Modifier
                 .fillMaxWidth()

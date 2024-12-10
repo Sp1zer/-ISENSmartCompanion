@@ -4,13 +4,14 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
-        android:hardwareAccelerated="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:debuggable="true"
         android:fullBackupContent="@xml/backup_rules"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -19,16 +20,21 @@
         tools:ignore="HardcodedDebugMode"
         tools:targetApi="31">
         <activity
-            android:name=".EventScreen"
+            android:name=".screens.EventDetailActivity"
             android:exported="false"
-            android:launchMode="singleTop"
+            android:label="@string/title_activity_event_detail"
+            android:theme="@style/Theme.ISENSmartCompanion" />
+        <activity
+            android:name=".screens.EventScreen"
+            android:exported="false"
             android:label="@string/title_activity_event_screen"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.ISENSmartCompanion" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:launchMode="singleTop"
             android:label="@string/app_name"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.ISENSmartCompanion">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,22 +43,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HistoryScreen"
+            android:name=".screens.HistoryScreen"
             android:exported="false"
-            android:launchMode="singleTop"
             android:label="@string/title_activity_history_screen"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.ISENSmartCompanion" />
         <activity
-            android:name=".AgendaScreen"
+            android:name=".screens.AgendaScreen"
             android:exported="false"
-            android:launchMode="singleTop"
             android:label="@string/title_activity_agenda_screen"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.ISENSmartCompanion" />
         <activity
-            android:name=".MainScreen"
+            android:name=".screens.MainScreen"
             android:exported="false"
-            android:launchMode="singleTop"
             android:label="@string/title_activity_main_screen"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.ISENSmartCompanion" />
 
         <meta-data

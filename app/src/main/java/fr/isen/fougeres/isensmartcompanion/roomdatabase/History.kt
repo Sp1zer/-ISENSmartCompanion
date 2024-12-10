@@ -1,6 +1,5 @@
 package fr.isen.fougeres.isensmartcompanion.roomdatabase
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -32,7 +31,6 @@ import fr.isen.fougeres.isensmartcompanion.components.StylishButton
 import fr.isen.fougeres.isensmartcompanion.components.StylishText
 import kotlinx.coroutines.async
 
-
 @Composable
 fun ShowHistory() {
     //cleanDatabase(LocalContext.current)
@@ -61,8 +59,6 @@ fun ShowHistory() {
                     vertical = 16.dp, horizontal = 8.dp
                 )
             ) {
-                Log.d("counter", userCount.intValue.toString())
-
                 items(userCount.intValue) { index ->
 
                     val requestState = remember { mutableStateOf<String?>(null) }
@@ -99,7 +95,8 @@ fun ShowHistory() {
                                 Color.White,
                                 TextAlign.Center,
                                 text = ("Question : \n" + requestState.value),
-                                12.0
+                                12.0,
+                                15
                             )
                         }
 
@@ -117,7 +114,8 @@ fun ShowHistory() {
                                 Color.White,
                                 TextAlign.Center,
                                 text = ("Answer : \n" + answerState.value),
-                                12.0
+                                12.0,
+                                15
                             )
                         }
                     }
@@ -128,7 +126,8 @@ fun ShowHistory() {
 
         Spacer(modifier = Modifier.height(rounding.dp * 2))
 
-        StylishButton(rounding.toDouble(),
+        StylishButton(
+            rounding.toDouble(),
             4.0,
             backgroundColor,
             Color.Red,
@@ -144,6 +143,7 @@ fun ShowHistory() {
                     Toast.LENGTH_SHORT
                 )
                 toast.show()
-            })
+            }
+        )
     }
 }
