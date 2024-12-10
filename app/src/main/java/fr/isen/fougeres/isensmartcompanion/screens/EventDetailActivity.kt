@@ -8,12 +8,27 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import fr.isen.fougeres.isensmartcompanion.backgroundColor
 import fr.isen.fougeres.isensmartcompanion.components.EventDetails
 import fr.isen.fougeres.isensmartcompanion.components.EventObject
+import fr.isen.fougeres.isensmartcompanion.components.StylishBox
 import fr.isen.fougeres.isensmartcompanion.components.StylishButton
 import fr.isen.fougeres.isensmartcompanion.notifications.EventUtils
 import fr.isen.fougeres.isensmartcompanion.notifications.NotificationUtils
@@ -64,28 +79,40 @@ class EventDetailActivity : ComponentActivity() {
         )
 
         setContent {
-            EventDetails(event)
-            StylishButton(
-                24.toDouble(),
-                4.0,
-                backgroundColor,
-                Color.Red,
-                Color.White,
-                Alignment.Center,
-                text = "Get notified ?",
-                12.0
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(backgroundColor)
             ) {
-                val context = LocalContext.current
-                // Launch a coroutine to handle the delay
-                CoroutineScope(Dispatchers.Main).launch {
-                    delay(10000) // 10 seconds delay
-
-                    // Use the appropriate context for the EventUtils methods
-                    EventUtils.checkAndRequestNotificationPermission(
-                        context,
-                        notificationPermissionLauncher
+                Column(
+                    modifier = Modifier.fillMaxSize(), // Make the Column fill the available space
+                    verticalArrangement = Arrangement.Center, // Center vertically
+                    horizontalAlignment = Alignment.CenterHorizontally // Center horizontally
+                ) {
+                    EventDetails(event)
+                    StylishButton(
+                        rounding = 24.toDouble(),
+                        outlineWidth = 4.0,
+                        backgroundColor = backgroundColor,
+                        outlineColor = Color.Red,
+                        textColor = Color.White,
+                        alignment = Alignment.Center,
+                        text = "Get notified?",
+                        padding = 12.0
                     ) {
-                        EventUtils.sendEventNotification(context, event)
+                        val context = LocalContext.current
+                        // Launch a coroutine to handle the delay
+                        CoroutineScope(Dispatchers.Main).launch {
+                            delay(10000) // 10 seconds delay
+
+                            // Use the appropriate context for the EventUtils methods
+                            EventUtils.checkAndRequestNotificationPermission(
+                                context,
+                                notificationPermissionLauncher
+                            ) {
+                                EventUtils.sendEventNotification(context, event)
+                            }
+                        }
                     }
                 }
             }

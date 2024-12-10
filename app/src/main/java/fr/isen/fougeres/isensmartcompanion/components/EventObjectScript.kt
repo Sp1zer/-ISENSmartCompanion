@@ -85,11 +85,11 @@ fun EventDetails(event: EventObject) {
     // Define specific sizes for each text
     val textSizes = listOf(
         16, // Size for ID
-        20, // Size for Title
-        18, // Size for Description
-        16, // Size for Date
-        16, // Size for Location
-        16  // Size for Category
+        30, // Size for Title
+        20, // Size for Description
+        25, // Size for Date
+        20, // Size for Location
+        25  // Size for Category
     )
 
     Column(
@@ -99,7 +99,7 @@ fun EventDetails(event: EventObject) {
         // Iterate over the list and display each property using StylishText
         eventDetails.forEachIndexed { index, (label, value) ->
             StylishText(
-                textColor = Color.Black, // You can customize colors as needed
+                textColor = Color.White, // You can customize colors as needed
                 alignment = TextAlign.Center,
                 text = "$label: $value",
                 padding = 8.0,
